@@ -1,0 +1,19 @@
+{
+  "name": "devtrack-progress-hub",
+  "version": "1.0.0",
+  "description": "DevTrack — Developer Progress Hub (MERN End-Term Project)",
+  "scripts": {
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "test:server": "npm --prefix server test",
+    "build:client": "npm --prefix client run build"
+  },
+  "keywords": [
+    "mern",
+    "devtrack",
+    "portfolio",
+    "developer-hub"
+  ],
+  "author": "",
+  "license": "ISC"
+}

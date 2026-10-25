@@ -145,9 +145,16 @@ export const Sidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobile
                   <p className="text-xs font-medium text-white truncate">
                     {user.name || user.username}
                   </p>
-                  <p className="text-[11px] text-[#A2B39E] truncate font-mono">
-                    @{user.username}
-                  </p>
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-[11px] text-[#A2B39E] truncate font-mono">
+                      @{user.username}
+                    </p>
+                    {user?.email === 'demo@devtrack.io' && (
+                      <span className="px-1 py-0.2 rounded text-[9px] font-mono font-semibold bg-[#B65F3B]/30 text-[#E8A588] border border-[#B65F3B]/50 leading-tight">
+                        DEMO
+                      </span>
+                    )}
+                  </div>
                 </div>
               )}
             </NavLink>

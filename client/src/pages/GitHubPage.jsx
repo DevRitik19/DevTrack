@@ -35,6 +35,7 @@ export const GitHubPage = () => {
   const [savingDefault, setSavingDefault] = useState(false);
   const [trackedUrls, setTrackedUrls] = useState(new Set());
   const [importingRepoId, setImportingRepoId] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const fetchTrackedProjects = useCallback(async () => {
     try {
@@ -87,6 +88,7 @@ export const GitHubPage = () => {
 
       try {
         setLoading(true);
+        setErrorMessage(null);
         const res = await integrationsApi.getGitHubData(targetUsername.trim());
         if (res.success) {
           setGitData(res.data);
@@ -94,7 +96,9 @@ export const GitHubPage = () => {
         }
       } catch (err) {
         setGitData(null);
-        addToast(err.message || 'Failed to fetch GitHub data', 'error');
+        const msg = err.message || 'Failed to fetch GitHub data';
+        setErrorMessage(msg);
+        addToast(msg, 'error');
       } finally {
         setLoading(false);
       }
@@ -178,7 +182,7 @@ export const GitHubPage = () => {
             <input
               type="text"
               className="devtrack-input devtrack-input-with-icon w-full pl-10 font-mono text-xs"
-              placeholder="Enter public GitHub username (e.g. torvalds, gaearon, octocat)..."
+              placeholder="Enter public GitHub username (e.g. DevRitik19, torvalds, octocat)..."
               value={usernameInput}
               onChange={(e) => setUsernameInput(e.target.value)}
               required
@@ -225,6 +229,14 @@ export const GitHubPage = () => {
         )}
       </div>
 
+      {/* Error Alert Banner */}
+      {errorMessage && (
+        <div className="p-4 rounded-xl bg-[#FDF2F0] border border-[#C24137]/30 text-xs text-[#C24137] flex items-center gap-2.5 shadow-xs">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span className="font-mono">{errorMessage}</span>
+        </div>
+      )}
+
       {/* Loading Skeleton */}
       {loading && (
         <div className="space-y-6">
@@ -241,6 +253,35 @@ export const GitHubPage = () => {
         <>
           {/* User Profile Card */}
           <div className="devtrack-card p-6">
+            {/* Connected Account & Demo Context Header */}
+            <div className="mb-5 pb-4 border-b border-[#E3D5BD] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+              <div className="flex items-center gap-2 text-[#263524]">
+                <Github className="w-4 h-4 shrink-0 text-[#263524]" />
+                <span className="font-mono">
+                  Connected Account: <strong className="font-semibold text-[#263524]">@{gitData.profile.username}</strong>
+                </span>
+                {user?.githubUsername === gitData.profile.username ? (
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#263524]/10 text-[#263524] border border-[#263524]/20 font-medium">
+                    Profile Linked
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FAF6EE] text-[#6E7167] border border-[#E3D5BD]">
+                    Public Search Preview
+                  </span>
+                )}
+              </div>
+              <span className="text-[11px] text-[#6E7167] font-mono">
+                Live GitHub REST API Response
+              </span>
+            </div>
+
+            {/* Transparent Demo Context Note */}
+            {user?.email === 'demo@devtrack.io' && gitData.profile.username === 'DevRitik19' && (
+              <div className="mb-5 p-3 rounded-lg bg-[#EAF2E8]/60 border border-[#263524]/20 text-[11px] text-[#263524] leading-relaxed">
+                <strong>Demonstration Context:</strong> This demo environment connects to project author <strong className="font-mono">@DevRitik19</strong> to showcase authentic live GitHub repositories, primary languages, and stargazers. You can type any public GitHub username above to inspect other developers or set your own default.
+              </div>
+            )}
+
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="flex items-start sm:items-center gap-4">
                 <img

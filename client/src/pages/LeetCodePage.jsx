@@ -157,13 +157,7 @@ export const LeetCodePage = () => {
     const easy = Number(statsForm.easy) || 0;
     const medium = Number(statsForm.medium) || 0;
     const hard = Number(statsForm.hard) || 0;
-    const sum = easy + medium + hard;
-    const total = Number(statsForm.total) || sum;
-
-    if (total < sum) {
-      addToast(`Total solved (${total}) cannot be less than sum of categories (${sum})`, 'error');
-      return;
-    }
+    const total = easy + medium + hard; // Mathematically guaranteed total = Easy + Medium + Hard
 
     try {
       setLoading(true);
@@ -230,7 +224,10 @@ export const LeetCodePage = () => {
     }
   };
 
-  const total = stats.total || (stats.easy || 0) + (stats.medium || 0) + (stats.hard || 0);
+  const easyCount = Number(stats.easy) || 0;
+  const mediumCount = Number(stats.medium) || 0;
+  const hardCount = Number(stats.hard) || 0;
+  const total = easyCount + mediumCount + hardCount;
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
@@ -296,8 +293,8 @@ export const LeetCodePage = () => {
               <Zap className="w-4 h-4" />
             </div>
             <div className="text-xs leading-relaxed text-text-secondary">
-              <span className="font-semibold text-[#263524]">Connect LeetCode: </span>
-              Enter your LeetCode username to automatically detect your solved questions, difficulty tiers, and global rank.
+              <span className="font-semibold text-[#263524]">User-Reported Metrics: </span>
+              Displaying self-reported problem counts for <span className="font-mono text-[#263524] font-semibold">@{stats.username || 'developer'}</span> ({easyCount} Easy + {mediumCount} Medium + {hardCount} Hard = {total} Total). You can edit these counts anytime or attempt live GraphQL detection.
             </div>
           </div>
           <button
@@ -305,7 +302,7 @@ export const LeetCodePage = () => {
             className="devtrack-btn-primary text-xs shrink-0 flex items-center gap-1.5 self-start sm:self-auto"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Auto-Connect</span>
+            <span>Update / Auto-Detect</span>
           </button>
         </div>
       )}
@@ -372,7 +369,7 @@ export const LeetCodePage = () => {
             </div>
             <div className="text-2xl font-bold font-mono text-[#263524]">{total}</div>
             <div className="text-[10px] text-text-muted font-mono mt-1">
-              Aggregated across all levels
+              Easy ({easyCount}) + Med ({mediumCount}) + Hard ({hardCount})
             </div>
           </div>
 

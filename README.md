@@ -131,7 +131,7 @@ NODE_ENV=development
 MONGODB_URI=mongodb://127.0.0.1:27017/devtrack
 
 # JWT Secret (Use a strong random 32+ character key in production)
-JWT_SECRET=devtrack_super_secure_jwt_secret_dev_key_2026_xyz
+JWT_SECRET=replace_with_a_long_random_secret
 JWT_EXPIRES_IN=7d
 
 # Allowed Frontend Origins for CORS & Cookies (comma-separated for multiple domains)
@@ -171,16 +171,22 @@ npm install
 ```
 
 ### 2. (Optional) Seed Demo Data
-To populate sample projects, learning goals, LeetCode metrics, and 7 consecutive days of authentic activity:
+To populate sample projects, learning goals, transparent LeetCode metrics, and 7 consecutive days of authentic activity:
 ```bash
 cd server
 npm run seed
 ```
 
-**Demo Credentials:**
-- **Email:** `demo@devtrack.io`
-- **Password:** `password123`
-- **Username:** `alex_rivera`
+> [!NOTE]
+> **Demo Account Policy & Credentials:**
+> - **Display Name:** Alex Rivera
+> - **Username:** `alex_rivera`
+> - **Email:** `demo@devtrack.io`
+> - **Password:** `password123`
+> - **Connected GitHub Account:** `@DevRitik19` (Used for demonstrating real GitHub REST API calls)
+> - **LeetCode Metrics:** 240 Solved (Easy: 95, Medium: 115, Hard: 30) — user-reported.
+> - **Security Notice:** The demo account has standard user privileges with zero administrative access. The demo password `password123` is strictly for local/evaluation testing and must never be reused for personal or production accounts.
+> - **Production Guard:** Demo accounts and sample data are never automatically seeded when `NODE_ENV=production`.
 
 ---
 

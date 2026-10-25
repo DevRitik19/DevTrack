@@ -8,7 +8,7 @@ const sendTokenResponse = (user, statusCode, res) => {
     console.warn('[DevTrack Security] Warning: JWT_SECRET should be a strong cryptographically random string in production.');
   }
 
-  const secret = process.env.JWT_SECRET || 'devtrack_super_secure_jwt_secret_dev_key_2026_xyz';
+  const secret = process.env.JWT_SECRET || 'devtrack_dev_jwt_secret_change_in_production';
   const expiresIn = process.env.JWT_EXPIRES_IN || '7d';
 
   const token = jwt.sign({ id: user._id }, secret, {
@@ -85,7 +85,7 @@ const login = async (req, res, next) => {
     let user = await User.findOne({ email }).select('+password');
 
     // On-demand fallback: If demo user does not exist yet and demo credentials provided, seed on-the-fly
-    if (!user && email === 'demo@devtrack.io' && password === 'password123') {
+    if (process.env.NODE_ENV !== 'production' && !user && email === 'demo@devtrack.io' && password === 'password123') {
       try {
         const { populateDemoData } = require('../seed');
         await populateDemoData();

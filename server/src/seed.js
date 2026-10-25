@@ -7,7 +7,13 @@ const ActivityLog = require('./models/ActivityLog');
 const { connectDB, disconnectDB } = require('./config/db');
 
 const populateDemoData = async () => {
-  // Remove existing demo user if exists
+  // Guard: Never run automated demo seeding in production
+  if (process.env.NODE_ENV === 'production') {
+    console.warn('[Seed] Automated demo seeding is disabled in production to protect real user data.');
+    return null;
+  }
+
+  // Remove existing demo user if exists (does not touch any real users)
   const existingDemo = await User.findOne({ email: 'demo@devtrack.io' });
   if (existingDemo) {
     await Project.deleteMany({ user: existingDemo._id });
@@ -22,10 +28,10 @@ const populateDemoData = async () => {
       email: 'demo@devtrack.io',
       password: 'password123',
       name: 'Alex Rivera',
-      bio: 'Full-stack software architect specializing in distributed cloud systems, modern React applications, and algorithm design.',
+      bio: 'Demonstration Developer Profile for DevTrack — Exploring distributed systems, algorithm design, and full-stack cloud tooling.',
       avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
       skills: ['React', 'Node.js', 'Express', 'MongoDB', 'TypeScript', 'Tailwind CSS', 'Docker', 'Redis'],
-      githubUsername: 'gaearon',
+      githubUsername: 'DevRitik19',
       leetcodeStats: {
         username: 'alex_dev',
         profileUrl: 'https://leetcode.com/alex_dev',
@@ -53,7 +59,7 @@ const populateDemoData = async () => {
         title: 'DevTrack — Developer Progress Hub',
         description: 'Comprehensive MERN platform for software developers tracking learning goals, real GitHub activity, LeetCode milestones, and project pipelines.',
         technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS', 'Recharts'],
-        githubUrl: 'https://github.com/alex_rivera/devtrack-hub',
+        githubUrl: 'https://github.com/DevRitik19/DevTrack',
         liveDemoUrl: 'http://localhost:5173',
         status: 'Completed',
         completionPercentage: 100,

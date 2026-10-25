@@ -190,7 +190,7 @@ export const PublicProfilePage = () => {
             <div className="p-3 bg-[#FAF6EE] rounded-lg border border-[#E3D5BD]">
               <div className="text-[10px] text-text-muted font-mono">LeetCode Solved</div>
               <div className="text-lg font-bold font-mono text-[#B65F3B] mt-0.5">
-                {profile.leetcode ? profile.leetcode.total : 0}
+                {profile.leetcode ? ((profile.leetcode.easy || 0) + (profile.leetcode.medium || 0) + (profile.leetcode.hard || 0) || profile.leetcode.total) : 0}
               </div>
             </div>
             <div className="p-3 bg-[#FAF6EE] rounded-lg border border-[#E3D5BD]">

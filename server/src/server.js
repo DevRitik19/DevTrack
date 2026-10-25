@@ -6,15 +6,17 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB and start listening
 connectDB()
   .then(async () => {
-    // Auto-seed demo data if demo account does not exist
+    // Auto-seed demo data if demo account does not exist (non-production environments only)
     try {
-      const User = require('./models/User');
-      const demoExists = await User.findOne({ email: 'demo@devtrack.io' });
-      if (!demoExists) {
-        console.log('[DevTrack] Demo user not found. Auto-seeding initial demo data...');
-        const { populateDemoData } = require('./seed');
-        await populateDemoData();
-        console.log('[DevTrack] Demo account and sample data auto-seeded successfully.');
+      if (process.env.NODE_ENV !== 'production') {
+        const User = require('./models/User');
+        const demoExists = await User.findOne({ email: 'demo@devtrack.io' });
+        if (!demoExists) {
+          console.log('[DevTrack] Demo user not found. Auto-seeding initial demo data...');
+          const { populateDemoData } = require('./seed');
+          await populateDemoData();
+          console.log('[DevTrack] Demo account and sample data auto-seeded successfully.');
+        }
       }
     } catch (seedErr) {
       console.warn('[DevTrack] Demo account auto-seed notice:', seedErr.message);

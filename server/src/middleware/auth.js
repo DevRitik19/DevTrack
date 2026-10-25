@@ -22,7 +22,7 @@ const protect = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'devtrack_super_secure_jwt_secret_dev_key_2026_xyz');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'devtrack_dev_jwt_secret_change_in_production');
     const user = await User.findById(decoded.id).select('-password');
 
     if (!user) {

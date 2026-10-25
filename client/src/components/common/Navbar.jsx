@@ -23,6 +23,11 @@ export const Navbar = ({ onOpenMobileMenu, onOpenLogModal }) => {
           <span className="text-sm font-semibold text-[#263524] tracking-tight">
             {user?.name || user?.username || 'Developer Hub'}
           </span>
+          {user?.email === 'demo@devtrack.io' && (
+            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-[#B65F3B]/10 text-[#B65F3B] border border-[#B65F3B]/30">
+              Demo Account
+            </span>
+          )}
         </div>
       </div>
 

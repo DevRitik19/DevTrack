@@ -135,7 +135,7 @@ const updateLeetCodeStats = async (req, res, next) => {
     const parsedMedium = Number(medium) || 0;
     const parsedHard = Number(hard) || 0;
     const computedTotal = parsedEasy + parsedMedium + parsedHard;
-    const finalTotal = total !== undefined && Number(total) >= computedTotal ? Number(total) : computedTotal;
+    const finalTotal = computedTotal;
 
     user.leetcodeStats = {
       username: username ? username.trim() : user.leetcodeStats?.username || '',
